@@ -14,18 +14,18 @@ export default class Radius {
         const near = 0.1
         const far = 100
         this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
-        this.camera.position.set(0, 0, 15)
+        this.camera.position.set(0, 0, 30)
         this.scene = new THREE.Scene()
 
         const radius = 7
         const widthSegments = 12
-        const heightSegments = 8
+        const heightSegments = 2
         // 创建球体几何体
-        const geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments)
+        const geometry = new THREE.DodecahedronGeometry(radius, 1)
         // 定义点的材质
-        const material = new THREE.PointsMaterial({ color: 'red', size: 0.3 })
+        const material = new THREE.LineBasicMaterial({ color: 'red' })
         // 绘制点
-        const points = new THREE.Points(geometry, material)
+        const points = new THREE.LineSegments(geometry, material)
 
         this.scene.add(points)
         this.renderer.setSize(window.innerWidth, window.innerHeight)

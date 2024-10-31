@@ -12,7 +12,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 // new Experience(document.querySelector<HTMLElement>('#canvas-content')!)
 // new EdgesBox(document.querySelector<HTMLElement>('#canvas-content')!)
-new Text(document.querySelector<HTMLElement>('#canvas-content')!)
-// new Radius(document.querySelector<HTMLElement>('#canvas-content')!)
+// new Text(document.querySelector<HTMLElement>('#canvas-content')!)
+new Radius(document.querySelector<HTMLElement>('#canvas-content')!)
 // new Line(document.querySelector<HTMLElement>('#canvas-content')!)
 // new SlicedSphere(document.querySelector<HTMLElement>('#canvas-content')!)
