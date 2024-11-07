@@ -5,7 +5,6 @@ import { TextGeometry } from 'three/addons/geometries/TextGeometry.js'
 
 export default class EdgesBox {
     constructor(el: HTMLElement) {
-        const canvas = document.querySelector('#c')
         const renderer = new THREE.WebGLRenderer({ antialias: true, canvas: el })
 
         const fov = 40
@@ -375,7 +374,7 @@ export default class EdgesBox {
                     super()
                     this.scale = scale
                 }
-                getPoint(t) {
+                getPoint(t: number) {
                     const tx = t * 3 - 1.5
                     const ty = Math.sin(2 * Math.PI * t)
                     const tz = 0
