@@ -1,8 +1,11 @@
+// 矩阵区域光
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js'
+import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js'
+import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js'
 
-export default class lightExp {
+export default class areaLight {
     renderer
     camera
     controls
@@ -11,11 +14,12 @@ export default class lightExp {
     lightHelper
     constructor(el: HTMLElement) {
         this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: el })
+        RectAreaLightUniformsLib.init()
 
-        const fov = 45
+        const fov = 40 // 视野
         const aspect = 2 // canvas 的默认宽高 300:150
-        const near = 0.1
-        const far = 500
+        const near = 0.1 // 视锥的前端
+        const far = 500 // 视锥的后端
         this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
         this.camera.position.set(0, 10, 20)
 
@@ -42,7 +46,7 @@ export default class lightExp {
         texture.repeat.set(repeats, repeats)
 
         const planeGeo = new THREE.PlaneGeometry(planeSize, planeSize)
-        const planeMat = new THREE.MeshPhongMaterial({
+        const planeMat = new THREE.MeshStandardMaterial({
             map: texture,
             side: THREE.DoubleSide
         })
@@ -53,7 +57,7 @@ export default class lightExp {
         {
             const cubeSize = 4
             const cubeGeo = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize)
-            const cubeMat = new THREE.MeshPhongMaterial({ color: '#8AC' })
+            const cubeMat = new THREE.MeshStandardMaterial({ color: '#8AC' })
             const mesh = new THREE.Mesh(cubeGeo, cubeMat)
             mesh.position.set(cubeSize + 1, cubeSize / 2, 0)
             this.scene.add(mesh)
@@ -67,88 +71,42 @@ export default class lightExp {
                 sphereWidthDivisions,
                 sphereHeightDivisions
             )
-            const sphereMat = new THREE.MeshPhongMaterial({ color: '#CA8' })
+            const sphereMat = new THREE.MeshStandardMaterial({ color: '#CA8' })
             const mesh = new THREE.Mesh(sphereGeo, sphereMat)
             mesh.position.set(-sphereRadius - 1, sphereRadius + 2, 0)
             this.scene.add(mesh)
         }
 
         {
-            // 半球光
-            // const color = 0xffffff
-            // const skyColor = 0xb1e1ff // light blue
-            // const groundColor = 0xb97a20 // brownish orange
-            // const intensity = 1
-            // // const light = new THREE.AmbientLight(color, intensity)
-            // const light = new THREE.HemisphereLight(skyColor, groundColor, intensity) // 半球光
-            // this.scene.add(light)
-
-            // const color = 0xffffff
-            // const intensity = 1
-            // // 方向光
-            // this.light = new THREE.DirectionalLight(color, intensity)
-            // this.light.position.set(0, 10, 0)
-            // this.light.target.position.set(0, 0, 0)
-            // this.scene.add(this.light)
-            // this.scene.add(this.light.target)
-
-            // 可视化光源的辅助工具，显示光线的线段
-            // this.lightHelper = new THREE.DirectionalLightHelper(this.light, 6, 0xffffff)
-            // this.scene.add(this.lightHelper)
-            // this.updateLight()
-
-            // const color = 0xffffff
-            // const intensity = 150
-            // // 点光源
-            // this.light = new THREE.PointLight(color, intensity)
-            // this.light.position.set(0, 10, 0)
-            // this.scene.add(this.light)
-
-            // this.lightHelper = new THREE.PointLightHelper(this.light)
-            // this.scene.add(this.lightHelper)
-
             // 聚光灯
             const color = 0xffffff
-            const intensity = 150
-            this.light = new THREE.SpotLight(color, intensity)
+            const intensity = 10
+            const width = 12
+            const height = 6
+            this.light = new THREE.RectAreaLight(color, intensity, width, height)
             this.light.position.set(0, 10, 0)
-            this.light.target.position.set(-5, 0, 0)
+            this.light.rotation.x = THREE.MathUtils.degToRad(-90)
             this.scene.add(this.light)
-            this.scene.add(this.light.target)
 
-            this.lightHelper = new THREE.SpotLightHelper(this.light)
-            this.scene.add(this.lightHelper)
-            this.updateLight()
+            this.lightHelper = new RectAreaLightHelper(this.light)
+            this.light.add(this.lightHelper)
 
             const gui = new GUI()
-            // gui.addColor(new ColorGUIHelper(light, 'color'), 'value').name('color')
-            // gui.addColor(new ColorGUIHelper(light, 'color'), 'value').name('skyColor')
-            // gui.addColor(new ColorGUIHelper(light, 'groundColor'), 'value').name('groundColor')
-            // gui.add(light, 'intensity', 0, 5, 0.01)
-
-            // gui.addColor(new ColorGUIHelper(this.light, 'color'), 'value').name('color')
-            // gui.add(this.light, 'intensity', 0, 5, 0.01)
-            // gui.add(this.light.target.position, 'x', -10, 10)
-            // gui.add(this.light.target.position, 'z', -10, 10)
-            // gui.add(this.light.target.position, 'y', 0, 10)
-            // this.makeXYZGUI(gui, this.light.position, 'position', this.updateLight)
-            // this.makeXYZGUI(gui, this.light.target.position, 'target', this.updateLight)
-
-            // gui.addColor(new ColorGUIHelper(this.light, 'color'), 'value').name('color')
-            // gui.add(this.light, 'intensity', 0, 250, 1)
-            // gui.add(this.light, 'distance', 0, 40).onChange(this.updateLight)
-            // this.makeXYZGUI(gui, this.light.position, 'position', this.updateLight)
-
             gui.addColor(new ColorGUIHelper(this.light, 'color'), 'value').name('color')
-            gui.add(this.light, 'intensity', 0, 250, 1)
-            gui.add(this.light, 'distance', 0, 40).onChange(this.updateLight)
-            gui.add(new DegRadHelper(this.light, 'angle'), 'value', 0, 90)
-                .name('angle')
-                .onChange(this.updateLight)
-            gui.add(this.light, 'penumbra', 0, 1, 0.01)
+            gui.add(this.light, 'intensity', 0, 10, 0.01)
+            gui.add(this.light, 'width', 0, 20)
+            gui.add(this.light, 'height', 0, 20)
+            gui.add(new DegRadHelper(this.light.rotation, 'x'), 'value', -180, 180).name(
+                'x rotation'
+            )
+            gui.add(new DegRadHelper(this.light.rotation, 'y'), 'value', -180, 180).name(
+                'y rotation'
+            )
+            gui.add(new DegRadHelper(this.light.rotation, 'z'), 'value', -180, 180).name(
+                'z rotation'
+            )
 
             this.makeXYZGUI(gui, this.light.position, 'position', this.updateLight)
-            this.makeXYZGUI(gui, this.light.target.position, 'target', this.updateLight)
         }
 
         // this.renderer.render(this.scene, this.camera)
@@ -180,8 +138,8 @@ export default class lightExp {
     }
 
     updateLight = () => {
-        this.light.target.updateMatrixWorld()
-        this.lightHelper.update()
+        // this.light.target.updateMatrixWorld()
+        // this.lightHelper.update()
     }
 
     makeXYZGUI = (

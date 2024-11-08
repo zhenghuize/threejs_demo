@@ -8,6 +8,7 @@ import SlicedSphere from './Experience/SlicedSphere.ts'
 import ScreenImg from './Experience/scene.ts'
 import texture from './Experience/texture.ts'
 import lightExp from './Experience/LightExp.ts'
+import areaLight from './Experience/areaLight.ts'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <canvas id="canvas-content"></canvas>
@@ -21,4 +22,5 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 // new SlicedSphere(document.querySelector<HTMLElement>('#canvas-content')!)
 // new ScreenImg(document.querySelector<HTMLElement>('#canvas-content')!) // 场景
 // new texture(document.querySelector<HTMLElement>('#canvas-content')!) // 纹理
-new lightExp(document.querySelector<HTMLElement>('#canvas-content')!) // 光照
+// new lightExp(document.querySelector<HTMLElement>('#canvas-content')!) // 光照
+new areaLight(document.querySelector<HTMLElement>('#canvas-content')!) // 光照
