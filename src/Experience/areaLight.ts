@@ -14,6 +14,7 @@ export default class areaLight {
     lightHelper
     constructor(el: HTMLElement) {
         this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: el })
+        this.renderer.shadowMap.enabled = true
         RectAreaLightUniformsLib.init()
 
         const fov = 40 // 视野
@@ -51,6 +52,7 @@ export default class areaLight {
             side: THREE.DoubleSide
         })
         const mesh = new THREE.Mesh(planeGeo, planeMat)
+        mesh.receiveShadow = true
         mesh.rotation.x = Math.PI * -0.5
         this.scene.add(mesh)
 
@@ -60,6 +62,8 @@ export default class areaLight {
             const cubeMat = new THREE.MeshStandardMaterial({ color: '#8AC' })
             const mesh = new THREE.Mesh(cubeGeo, cubeMat)
             mesh.position.set(cubeSize + 1, cubeSize / 2, 0)
+            mesh.castShadow = true
+            mesh.receiveShadow = true
             this.scene.add(mesh)
         }
         {
@@ -74,6 +78,8 @@ export default class areaLight {
             const sphereMat = new THREE.MeshStandardMaterial({ color: '#CA8' })
             const mesh = new THREE.Mesh(sphereGeo, sphereMat)
             mesh.position.set(-sphereRadius - 1, sphereRadius + 2, 0)
+            mesh.castShadow = true
+            mesh.receiveShadow = true
             this.scene.add(mesh)
         }
 
@@ -83,17 +89,19 @@ export default class areaLight {
             const intensity = 10
             const width = 12
             const height = 6
-            this.light = new THREE.RectAreaLight(color, intensity, width, height)
+            this.light = new THREE.DirectionalLight(color, intensity)
+            this.light.castShadow = true
             this.light.position.set(0, 10, 0)
             this.light.rotation.x = THREE.MathUtils.degToRad(-90)
+
             this.scene.add(this.light)
 
-            this.lightHelper = new RectAreaLightHelper(this.light)
+            this.lightHelper = new THREE.DirectionalLightHelper(this.light)
             this.light.add(this.lightHelper)
 
             const gui = new GUI()
             gui.addColor(new ColorGUIHelper(this.light, 'color'), 'value').name('color')
-            gui.add(this.light, 'intensity', 0, 10, 0.01)
+            gui.add(this.light, 'intensity', 0, 100, 0.01)
             gui.add(this.light, 'width', 0, 20)
             gui.add(this.light, 'height', 0, 20)
             gui.add(new DegRadHelper(this.light.rotation, 'x'), 'value', -180, 180).name(
