@@ -16,6 +16,7 @@ import renderTarget from './Experience/renderTarget.ts'
 import position from './Experience/position.ts'
 import trajectory from './Experience/trajectory.ts'
 import mousePainting from './Experience/mousePainting.ts'
+import earth from './Experience/earth.ts'
 
 // document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 //     <canvas id="canvas-content"></canvas>
@@ -32,6 +33,7 @@ import mousePainting from './Experience/mousePainting.ts'
 // `
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <canvas id="canvas-content"></canvas>
+    <div id="ui"></div>
 `
 
 // new Experience(document.querySelector<HTMLElement>('#canvas-content')!)
@@ -50,4 +52,5 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 // new renderTarget(document.querySelector<HTMLElement>('#canvas-content')!) // 渲染目标
 // new position(document.querySelector<HTMLElement>('#canvas-content')!) // 点击生成圆球
 // new trajectory(document.querySelector<HTMLElement>('#canvas-content')!) // 轨迹运动
-new mousePainting(document.querySelector<HTMLElement>('#canvas-content')!) // 鼠标绘画
+// new mousePainting(document.querySelector<HTMLElement>('#canvas-content')!) // 鼠标绘画
+new earth(document.querySelector<HTMLCanvasElement>('#canvas-content')!) // 地球
