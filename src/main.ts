@@ -17,6 +17,7 @@ import position from './Experience/position.ts'
 import trajectory from './Experience/trajectory.ts'
 import mousePainting from './Experience/mousePainting.ts'
 import earth from './Experience/earth.ts'
+import loadObj from './Experience/loadObj.ts'
 
 // document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 //     <canvas id="canvas-content"></canvas>
@@ -53,4 +54,5 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 // new position(document.querySelector<HTMLElement>('#canvas-content')!) // 点击生成圆球
 // new trajectory(document.querySelector<HTMLElement>('#canvas-content')!) // 轨迹运动
 // new mousePainting(document.querySelector<HTMLElement>('#canvas-content')!) // 鼠标绘画
-new earth(document.querySelector<HTMLCanvasElement>('#canvas-content')!) // 地球
+// new earth(document.querySelector<HTMLCanvasElement>('#canvas-content')!) // 地球
+new loadObj(document.querySelector<HTMLCanvasElement>('#canvas-content')!) // 加载OBj
