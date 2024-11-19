@@ -18,6 +18,8 @@ import trajectory from './Experience/trajectory.ts'
 import mousePainting from './Experience/mousePainting.ts'
 import earth from './Experience/earth.ts'
 import loadObj from './Experience/loadObj.ts'
+import loadGLTF from './Experience/loadGLTF.ts'
+import background from './Experience/background.ts'
 
 // document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 //     <canvas id="canvas-content"></canvas>
@@ -55,4 +57,6 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 // new trajectory(document.querySelector<HTMLElement>('#canvas-content')!) // 轨迹运动
 // new mousePainting(document.querySelector<HTMLElement>('#canvas-content')!) // 鼠标绘画
 // new earth(document.querySelector<HTMLCanvasElement>('#canvas-content')!) // 地球
-new loadObj(document.querySelector<HTMLCanvasElement>('#canvas-content')!) // 加载OBj
+// new loadObj(document.querySelector<HTMLCanvasElement>('#canvas-content')!) // 加载OBj
+// new loadGLTF(document.querySelector<HTMLCanvasElement>('#canvas-content')!) // 加载gltf
+new background(document.querySelector<HTMLCanvasElement>('#canvas-content')!)
